@@ -7,6 +7,7 @@ object Tile extends Enum[Tile] {
   override val values = findValues
 
   case object Grass extends Tile
-  case object Wall extends Tile
+  case object Tree extends Tile
   case object Coin extends Tile
+  case object StartingArea extends Tile
 }

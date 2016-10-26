@@ -22,8 +22,8 @@ object MapLoader {
 
   private def tileForChar(c: Char) = c match {
     case ' ' ⇒ Tile.Grass
-    case 'W' ⇒ Tile.Wall
-    case 'S' ⇒ Tile.Grass
+    case 'W' ⇒ Tile.Tree
+    case 'S' ⇒ Tile.StartingArea
     case 'C' ⇒ Tile.Coin
   }
 

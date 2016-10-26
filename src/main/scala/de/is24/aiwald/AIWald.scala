@@ -13,8 +13,9 @@ object AIWald extends App {
 
 class Game(map: GameMap) extends BasicGame("AIwald game") {
   var grassTile: Image = null
-  var brickTile: Image = null
+  var treeTile: Image = null
   var coinTile: Image = null
+  var towerTile: Image = null
 
   override def render(container: GameContainer, g: Graphics): Unit = {
     for {
@@ -28,15 +29,17 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
   }
 
   def tileOf(x: Int, y: Int): List[Image] = map(y)(x) match {
-    case Tile.Grass ⇒ List(grassTile)
-    case Tile.Wall  ⇒ List(brickTile)
-    case Tile.Coin  ⇒ List(grassTile, coinTile)
+    case Tile.Grass        ⇒ List(grassTile)
+    case Tile.Tree         ⇒ List(grassTile, treeTile)
+    case Tile.Coin         ⇒ List(grassTile, coinTile)
+    case Tile.StartingArea ⇒ List(grassTile, towerTile)
   }
 
   override def init(container: GameContainer): Unit = {
     grassTile = new Image("grass_scaled.png")
-    brickTile = new Image("wall_scaled.png")
+    treeTile = new Image("tree.png")
     coinTile = new Image("coin.png")
+    towerTile = new Image("tower.png")
   }
 
   override def update(container: GameContainer, delta: Int): Unit = {
