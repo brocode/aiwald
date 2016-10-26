@@ -11,21 +11,34 @@ object AIWald extends App {
   app.start()
 }
 
+case class PlayerLocation(x: Int, y: Int, orientation: Orientation)
+
 class Game(map: GameMap) extends BasicGame("AIwald game") {
   var grassTile: Image = null
   var treeTile: Image = null
   var coinTile: Image = null
   var towerTile: Image = null
+  var playerNorth: Image = null
+  var playerEast: Image = null
+  var playerSouth: Image = null
+  var playerWest: Image = null
+  var playerLocation = getStartingPlayerLocation(map)
 
   override def render(container: GameContainer, g: Graphics): Unit = {
+    implicit val graphics = g
     for {
       x ← 0 until 25
       y ← 0 until 25
     } {
       tileOf(x, y).foreach { tile ⇒
-        g.drawImage(tile, x * 32, y * 32)
+        drawAt(x, y, tile)
       }
+      drawAt(playerLocation.x, playerLocation.y, playerImage(playerLocation.orientation))
     }
+  }
+
+  private def drawAt(x: Int, y: Int, image: Image)(implicit g: Graphics) = {
+    g.drawImage(image, x * 32, y * 32)
   }
 
   def tileOf(x: Int, y: Int): List[Image] = map(y)(x) match {
@@ -40,8 +53,28 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
     treeTile = new Image("tree.png")
     coinTile = new Image("coin.png")
     towerTile = new Image("tower.png")
+    playerNorth = new Image("player_north.png")
+    playerEast = new Image("player_east.png")
+    playerSouth = new Image("player_south.png")
+    playerWest = new Image("player_west.png")
+  }
+
+  def playerImage(orientation: Orientation) = orientation match {
+    case Orientation.North ⇒ playerNorth
+    case Orientation.East  ⇒ playerEast
+    case Orientation.South ⇒ playerSouth
+    case Orientation.West  ⇒ playerWest
   }
 
   override def update(container: GameContainer, delta: Int): Unit = {
+  }
+
+  def getStartingPlayerLocation(map: GameMap): PlayerLocation = {
+    val (row, y) = map.zipWithIndex.filter {
+      case (row, index) ⇒
+        row.exists(tile ⇒ tile == Tile.StartingArea)
+    }.head
+    val x = row.zipWithIndex.filter(_._1 == Tile.StartingArea).head._2
+    PlayerLocation(x, y, Orientation.South)
   }
 }
