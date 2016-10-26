@@ -1,29 +1,19 @@
 package de.is24.aiwald
 
 import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics, Image }
-import enumeratum._
+import MapLoader.GameMap
 
 object AIWald extends App {
-  val app: AppGameContainer = new AppGameContainer(new Game())
+  val app: AppGameContainer = new AppGameContainer(new Game(MapLoader.load("level_1")))
   app.setDisplayMode(800, 800, false)
   app.setTargetFrameRate(60)
   app.setForceExit(false)
   app.start()
 }
 
-sealed trait Tile extends EnumEntry
-
-object Tile extends Enum[Tile] {
-  override val values = findValues
-
-  case object Grass extends Tile
-  case object Wall extends Tile
-}
-
-class Game extends BasicGame("AIwald game") {
+class Game(map: GameMap) extends BasicGame("AIwald game") {
   var grassTile: Image = null
   var brickTile: Image = null
-  val map: Array[Array[Tile]] = Array.tabulate(50, 50)((x, y) ⇒ if ((x + y) % 2 == 0) Tile.Grass else Tile.Wall)
 
   override def render(container: GameContainer, g: Graphics): Unit = {
     for {
