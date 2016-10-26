@@ -8,4 +8,5 @@ object Tile extends Enum[Tile] {
 
   case object Grass extends Tile
   case object Wall extends Tile
+  case object Coin extends Tile
 }
