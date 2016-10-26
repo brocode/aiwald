@@ -27,10 +27,10 @@ class Game extends BasicGame("AIwald game") {
 
   override def render(container: GameContainer, g: Graphics): Unit = {
     for {
-      x ← 0 until 50
-      y ← 0 until 50
+      x ← 0 until 25
+      y ← 0 until 25
     } {
-      g.drawImage(tileOf(x, y), x * 16, y * 16)
+      g.drawImage(tileOf(x, y), x * 32, y * 32)
     }
   }
 
