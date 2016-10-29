@@ -7,6 +7,9 @@ object AIWald extends App {
   val app: AppGameContainer = new AppGameContainer(new Game(MapLoader.load("level_1")))
   app.setDisplayMode(800, 800, false)
   app.setTargetFrameRate(60)
+  app.setTitle("AIWald")
+  app.setMinimumLogicUpdateInterval(50)
+  app.setMaximumLogicUpdateInterval(50)
   app.setForceExit(false)
   app.start()
 }
@@ -23,6 +26,7 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
   var playerSouth: Image = null
   var playerWest: Image = null
   var playerLocation = getStartingPlayerLocation(map)
+  var timePassed: Long = 0L
 
   override def render(container: GameContainer, g: Graphics): Unit = {
     implicit val graphics = g
@@ -67,6 +71,10 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
   }
 
   override def update(container: GameContainer, delta: Int): Unit = {
+    timePassed = timePassed + delta
+    if (timePassed % 1000 == 0) {
+      playerLocation = playerLocation.copy(y = playerLocation.y + 1)
+    }
   }
 
   def getStartingPlayerLocation(map: GameMap): PlayerLocation = {
