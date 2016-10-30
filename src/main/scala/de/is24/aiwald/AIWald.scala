@@ -82,6 +82,10 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
     move match {
       case Move.MOVE_FORWARD ⇒
         moveForward()
+      case Move.ROTATE_LEFT ⇒
+        playerLocation = playerLocation.rotateLeft()
+      case Move.ROTATE_RIGTH ⇒
+        playerLocation = playerLocation.rotateRight()
     }
   }
 
