@@ -14,17 +14,6 @@ object AIWald extends App {
   app.start()
 }
 
-case class PlayerLocation(x: Int, y: Int, orientation: Orientation) {
-  def moveForward(): PlayerLocation = {
-    orientation match {
-      case Orientation.North ⇒ this.copy(y = y - 1)
-      case Orientation.East  ⇒ this.copy(x = x + 1)
-      case Orientation.South ⇒ this.copy(y = y + 1)
-      case Orientation.West  ⇒ this.copy(x = x - 1)
-    }
-  }
-}
-
 class Game(map: GameMap) extends BasicGame("AIwald game") {
   val ai = new AI()
   var grassTile: Image = null
@@ -98,16 +87,10 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
 
   private def moveForward() {
     val newLocation = playerLocation.moveForward()
-    if (isValidLocation(newLocation))
+    if (newLocation.isValidLocation(map))
       playerLocation = newLocation
     else
       println("dead end")
-  }
-
-  private def isValidLocation(playerLocation: PlayerLocation): Boolean = {
-    val validTiles = Seq(Tile.Grass, Tile.Coin, Tile.StartingArea)
-    val tile = map(playerLocation.y)(playerLocation.x)
-    validTiles.contains(tile)
   }
 
   def getStartingPlayerLocation(map: GameMap): PlayerLocation = {
