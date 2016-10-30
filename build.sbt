@@ -25,6 +25,9 @@ val appDependencies = Seq(
   "org.slick2d" % "slick2d-core" % slick2dVersion
 )
 
+resolvers ++= Seq("Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases")
+
+
 lazy val root = Project(id = "AIwald", base = file("."), settings = Defaults.coreDefaultSettings ++ defaultScalariformSettings).settings(
   name := "AIwald",
   organization := "de.is24",
