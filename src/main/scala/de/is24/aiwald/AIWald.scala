@@ -14,17 +14,17 @@ object AIWald extends App {
   app.start()
 }
 
-class Game(var map: GameMap, ai: AI = new AI()) extends BasicGame("AIwald game") {
-  var grassTile: Image = null
-  var treeTile: Image = null
-  var coinTile: Image = null
-  var towerTile: Image = null
-  var playerNorth: Image = null
-  var playerEast: Image = null
-  var playerSouth: Image = null
-  var playerWest: Image = null
-  var playerLocation = getStartingPlayerLocation(map)
-  var timeSinceLastUpdate: Long = 0L
+class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game") {
+  private var grassTile: Image = null
+  private var treeTile: Image = null
+  private var coinTile: Image = null
+  private var towerTile: Image = null
+  private var playerNorth: Image = null
+  private var playerEast: Image = null
+  private var playerSouth: Image = null
+  private var playerWest: Image = null
+  private var playerLocation = getStartingPlayerLocation(map)
+  private var timeSinceLastUpdate: Long = 0L
 
   override def render(container: GameContainer, g: Graphics): Unit = {
     implicit val graphics = g
@@ -78,6 +78,7 @@ class Game(var map: GameMap, ai: AI = new AI()) extends BasicGame("AIwald game")
 
   def tick(): Unit = {
     val move = ai.nextMove(map, playerLocation)
+    println(s"Execute move $move")
     move match {
       case Move.MOVE_FORWARD ⇒
         moveForward()
@@ -89,6 +90,8 @@ class Game(var map: GameMap, ai: AI = new AI()) extends BasicGame("AIwald game")
         pickUp()
     }
   }
+
+  def won: Boolean = !coinsLeft
 
   private def pickUp(): Unit = {
     if (currentTile == Tile.Coin) {
@@ -105,6 +108,8 @@ class Game(var map: GameMap, ai: AI = new AI()) extends BasicGame("AIwald game")
     else
       println("dead end")
   }
+
+  private def coinsLeft: Boolean = map.flatten.toList.contains(Tile.Coin)
 
   def getStartingPlayerLocation(map: GameMap): PlayerLocation = {
     val (row, y) = map.zipWithIndex.filter {
