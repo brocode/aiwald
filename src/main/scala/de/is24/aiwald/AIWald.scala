@@ -23,6 +23,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   private var playerEast: Image = null
   private var playerSouth: Image = null
   private var playerWest: Image = null
+  private var wonImage: Image = null
   private var playerLocation = getStartingPlayerLocation(map)
   private var timeSinceLastUpdate: Long = 0L
 
@@ -36,6 +37,9 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
         drawAt(x, y, tile)
       }
       drawAt(playerLocation.x, playerLocation.y, playerImage(playerLocation.orientation))
+    }
+    if (won) {
+      g.drawImage(wonImage, 600, 30)
     }
   }
 
@@ -59,6 +63,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     playerEast = new Image("player_east.png")
     playerSouth = new Image("player_south.png")
     playerWest = new Image("player_west.png")
+    wonImage = new Image("won.png")
   }
 
   def playerImage(orientation: Orientation) = orientation match {
