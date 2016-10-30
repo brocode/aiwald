@@ -82,17 +82,19 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   }
 
   def tick(): Unit = {
-    val move = ai.nextMove(map, playerLocation)
-    println(s"Execute move $move")
-    move match {
-      case Move.MOVE_FORWARD ⇒
-        moveForward()
-      case Move.ROTATE_LEFT ⇒
-        playerLocation = playerLocation.rotateLeft()
-      case Move.ROTATE_RIGTH ⇒
-        playerLocation = playerLocation.rotateRight()
-      case Move.PICK_UP ⇒
-        pickUp()
+    if (!won) {
+      val move = ai.nextMove(map, playerLocation)
+      println(s"Execute move $move")
+      move match {
+        case Move.MOVE_FORWARD ⇒
+          moveForward()
+        case Move.ROTATE_LEFT ⇒
+          playerLocation = playerLocation.rotateLeft()
+        case Move.ROTATE_RIGTH ⇒
+          playerLocation = playerLocation.rotateRight()
+        case Move.PICK_UP ⇒
+          pickUp()
+      }
     }
   }
 
