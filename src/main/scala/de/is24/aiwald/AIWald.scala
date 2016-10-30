@@ -14,8 +14,7 @@ object AIWald extends App {
   app.start()
 }
 
-class Game(map: GameMap) extends BasicGame("AIwald game") {
-  val ai = new AI()
+class Game(var map: GameMap, ai: AI = new AI()) extends BasicGame("AIwald game") {
   var grassTile: Image = null
   var treeTile: Image = null
   var coinTile: Image = null
@@ -86,8 +85,18 @@ class Game(map: GameMap) extends BasicGame("AIwald game") {
         playerLocation = playerLocation.rotateLeft()
       case Move.ROTATE_RIGTH ⇒
         playerLocation = playerLocation.rotateRight()
+      case Move.PICK_UP ⇒
+        pickUp()
     }
   }
+
+  private def pickUp(): Unit = {
+    if (currentTile == Tile.Coin) {
+      map = map.updated(playerLocation.y, map(playerLocation.x).updated(playerLocation.x, Tile.Grass))
+    }
+  }
+
+  private def currentTile = map(playerLocation.y)(playerLocation.x)
 
   private def moveForward() {
     val newLocation = playerLocation.moveForward()
