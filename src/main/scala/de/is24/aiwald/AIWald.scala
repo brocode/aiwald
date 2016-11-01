@@ -15,7 +15,7 @@ object AIWald extends App {
 }
 
 class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game") {
-  val avatar = "lidia"
+  val avatar = new AvatarCollection(AvatarName.LIDIA)
   private var grassTile: Image = null
   private var treeTile: Image = null
   private var coinTile: Image = null
@@ -60,10 +60,10 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     treeTile = new Image("tree.png")
     coinTile = new Image("coin.png")
     towerTile = new Image("tower.png")
-    playerNorth = playerImage("north")
-    playerEast = playerImage("east")
-    playerSouth = playerImage("south")
-    playerWest = playerImage("west")
+    playerNorth = new Image(avatar.facing(Orientation.North))
+    playerEast = new Image(avatar.facing(Orientation.East))
+    playerSouth = new Image(avatar.facing(Orientation.South))
+    playerWest = new Image(avatar.facing(Orientation.West))
     wonImage = new Image("won.png")
   }
 
@@ -127,6 +127,4 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     val x = row.zipWithIndex.filter(_._1 == Tile.StartingArea).head._2
     PlayerLocation(x, y, Orientation.South)
   }
-
-  private def playerImage(name: String): Image = new Image(s"players/$avatar/$name.png")
 }
