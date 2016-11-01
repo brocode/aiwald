@@ -108,7 +108,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
 
   private def currentTile = map(playerLocation.y)(playerLocation.x)
 
-  private def moveForward() {
+  private def moveForward() = {
     val newLocation = playerLocation.moveForward()
     if (newLocation.isValidLocation(map))
       playerLocation = newLocation
