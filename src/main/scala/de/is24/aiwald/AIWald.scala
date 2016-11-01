@@ -1,6 +1,6 @@
 package de.is24.aiwald
 
-import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics, Image, SpriteSheet }
+import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics, Image }
 import MapLoader.GameMap
 
 object AIWald extends App {
@@ -45,7 +45,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   }
 
   private def drawAt(x: Int, y: Int, image: Image)(implicit g: Graphics) = {
-    g.drawImage(image, x * 32, y * 32)
+    g.drawImage(image, x.toFloat * 32, y.toFloat * 32)
   }
 
   def tileOf(x: Int, y: Int): List[Image] = map(y)(x) match {
