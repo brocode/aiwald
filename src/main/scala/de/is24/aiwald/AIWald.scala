@@ -1,6 +1,6 @@
 package de.is24.aiwald
 
-import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics, Image }
+import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics, Image, SpriteSheet }
 import MapLoader.GameMap
 
 object AIWald extends App {
@@ -15,6 +15,7 @@ object AIWald extends App {
 }
 
 class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game") {
+  val avatar = "lidia"
   private var grassTile: Image = null
   private var treeTile: Image = null
   private var coinTile: Image = null
@@ -59,10 +60,10 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     treeTile = new Image("tree.png")
     coinTile = new Image("coin.png")
     towerTile = new Image("tower.png")
-    playerNorth = new Image("player_north.png")
-    playerEast = new Image("player_east.png")
-    playerSouth = new Image("player_south.png")
-    playerWest = new Image("player_west.png")
+    playerNorth = playerImage("north")
+    playerEast = playerImage("east")
+    playerSouth = playerImage("south")
+    playerWest = playerImage("west")
     wonImage = new Image("won.png")
   }
 
@@ -126,4 +127,6 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     val x = row.zipWithIndex.filter(_._1 == Tile.StartingArea).head._2
     PlayerLocation(x, y, Orientation.South)
   }
+
+  private def playerImage(name: String): Image = new Image(s"players/$avatar/$name.png")
 }
