@@ -9,6 +9,7 @@ val encoding = "utf-8"
 
 val enumeratumVersion: String = "1.4.9"
 val slick2dVersion = "1.0.0"
+val projectScalaVersion = "2.11.8"
 
 val testDependencies = Seq(
   "org.specs2" %% "specs2-core" % "3.6",
@@ -32,7 +33,8 @@ lazy val root = Project(id = "AIwald", base = file("."), settings = Defaults.cor
   name := "AIwald",
   organization := "de.is24",
   shellPrompt := { state => scala.Console.CYAN + "🌲 AIwald " + scala.Console.RESET },
-  scalaVersion := "2.11.8",
+  scalaVersion := projectScalaVersion,
+  scalaVersion in ThisBuild := projectScalaVersion,
   libraryDependencies ++= appDependencies ++ testDependencies,
   javacOptions ++= Seq("-source", javaVersion, "-target", javaVersion, "-Xlint"),
   javaOptions ++= Seq("-Djava.library.path=./natives/"),
