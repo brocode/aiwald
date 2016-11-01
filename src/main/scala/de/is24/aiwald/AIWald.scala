@@ -4,7 +4,8 @@ import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics,
 import MapLoader.GameMap
 
 object AIWald extends App {
-  val app: AppGameContainer = new AppGameContainer(new Game(MapLoader.load("level_1")))
+  val levelName: String = args.toList.headOption.getOrElse(throw new IllegalArgumentException("No level name specified"))
+  val app: AppGameContainer = new AppGameContainer(new Game(MapLoader.load(levelName)))
   app.setDisplayMode(800, 800, false)
   app.setTargetFrameRate(60)
   app.setTitle("AIWald")
@@ -95,6 +96,8 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
           playerLocation = playerLocation.rotateRight()
         case Move.PICK_UP ⇒
           pickUp()
+        case Move.DO_NOTHING ⇒
+          ()
       }
     }
   }
