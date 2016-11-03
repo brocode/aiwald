@@ -39,15 +39,15 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
       tileOf(x, y).foreach { tile ⇒
         drawAt(x, y, tile)
       }
-      drawAt(playerLocation.x, playerLocation.y, playerImage(playerLocation.orientation))
+      drawAt(playerLocation.x, playerLocation.y, playerImage(playerLocation.orientation), yOffset = -5)
     }
     if (won) {
       g.drawImage(wonImage, 600, 30)
     }
   }
 
-  private def drawAt(x: Int, y: Int, image: Image)(implicit g: Graphics) = {
-    g.drawImage(image, x.toFloat * 32, y.toFloat * 32)
+  private def drawAt(x: Int, y: Int, image: Image, yOffset: Int = 0)(implicit g: Graphics) = {
+    g.drawImage(image, x.toFloat * 32, y.toFloat * 32 + yOffset)
   }
 
   def tileOf(x: Int, y: Int): List[Image] = map(y)(x) match {

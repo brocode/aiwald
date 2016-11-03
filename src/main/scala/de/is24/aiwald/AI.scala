@@ -13,7 +13,6 @@ class MyAI extends AI {
     if (map(playerLocation.y)(playerLocation.x) == Tile.Coin)
       Move.PICK_UP
     else
-      Random.shuffle(Move.values).head
+      Move.MOVE_FORWARD
   }
 }
-
