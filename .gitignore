@@ -37,3 +37,5 @@ server.pid
 /project/local.sbt
 
 *.log
+
+.DS_STORE
