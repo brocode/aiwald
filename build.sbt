@@ -41,6 +41,7 @@ lazy val root = Project(id = "AIwald", base = file("."), settings = Defaults.cor
   scalacOptions ++= Seq("-feature", "-language:postfixOps", "-target:jvm-" + javaVersion, "-unchecked", "-deprecation", "-encoding", encoding),
   mainClass := Some("de.is24.aiwald.AIwald"),
   fork in run := true,
+  cancelable in Global := true,
 
   /**
     * scalariform
