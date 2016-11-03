@@ -6,8 +6,8 @@ import org.specs2.mutable.Specification
 class AIWaldSpec extends Specification {
   class TestAI extends AI {
 
-    def nextMove(map: GameMap, playerLocation: PlayerLocation): Move = {
-      if (map(playerLocation.y)(playerLocation.x) == Tile.Coin)
+    def nextMove(map: GameMap, currentPlayerLocation: PlayerLocation): Move = {
+      if (map(currentPlayerLocation.y)(currentPlayerLocation.x) == Tile.Coin)
         Move.PICK_UP
       else
         Move.MOVE_FORWARD
@@ -15,12 +15,37 @@ class AIWaldSpec extends Specification {
   }
 
   "Level 1" should {
-    "be winnable by TestAI in 14 turns" in {
-      val game = new Game(MapLoader.load("level_1"), new TestAI())
-      for (x ← 1 to 13) {
-        game.tick()
-        game.won must beFalse
-      }
+    "be winnable by TestAI" in {
+      val ai = new TestAI()
+      val game = new Game(MapLoader.load("level_1"), ai)
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Coin
+      game.tick()
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Coin
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Tree
+      game.won must beFalse
       game.tick() // this should pick up the coin
       game.won must beTrue
       ok

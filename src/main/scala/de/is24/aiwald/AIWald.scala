@@ -30,6 +30,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   private var playerLocation = getStartingPlayerLocation(map)
   private var timeSinceLastUpdate: Long = 0L
 
+  def currentPlayerLocation: PlayerLocation = playerLocation
   override def render(container: GameContainer, g: Graphics): Unit = {
     implicit val graphics = g
     for {
