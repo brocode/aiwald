@@ -26,6 +26,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   private var playerSouth: Image = null
   private var playerWest: Image = null
   private var wonImage: Image = null
+  private var pavingOverlayTile: Image = null
   private var playerLocation = getStartingPlayerLocation(map)
   private var timeSinceLastUpdate: Long = 0L
 
@@ -50,13 +51,14 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   }
 
   def tileOf(x: Int, y: Int): List[Image] = map(y)(x) match {
-    case Tile.Grass        ⇒ List(grassTile)
+    case Tile.Grass        ⇒ List(grassTile, pavingOverlayTile)
     case Tile.Tree         ⇒ List(grassTile, treeTile)
     case Tile.Coin         ⇒ List(grassTile, coinTile)
     case Tile.StartingArea ⇒ List(grassTile, towerTile)
   }
 
   override def init(container: GameContainer): Unit = {
+    pavingOverlayTile = new Image("paving.png")
     grassTile = new Image("grass_scaled.png")
     treeTile = new Image("tree.png")
     coinTile = new Image("coin.png")
