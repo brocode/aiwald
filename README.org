@@ -1,0 +1,8 @@
+* AIWald
+Program an AI that moves through a forest (german: Wald) maze.
+
+
+Usage:
+#+BEGIN_SRC bash
+sbt "run level_1" # edit level according to maps in src/main/resources/levels/*.map
+#+END_SRC
