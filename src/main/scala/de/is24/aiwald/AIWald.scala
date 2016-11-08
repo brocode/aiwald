@@ -81,6 +81,8 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     wonImage = new Image("won.png")
     victoryRawFont = new Font("Time New Roman", Font.BOLD, 35)
     victoryFont = new TrueTypeFont(victoryRawFont, true)
+
+    container.setShowFPS(false)
   }
 
   def playerImage(orientation: Orientation) = orientation match {
