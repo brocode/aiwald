@@ -12,7 +12,8 @@ object AIWald extends App {
   app.setTitle("AIWald")
   app.setMinimumLogicUpdateInterval(50)
   app.setMaximumLogicUpdateInterval(50)
-  app.setForceExit(false)
+  app.setForceExit(true)
+  app.setShowFPS(false)
   app.start()
 }
 
@@ -81,8 +82,6 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     wonImage = new Image("won.png")
     victoryRawFont = new Font("Time New Roman", Font.BOLD, 35)
     victoryFont = new TrueTypeFont(victoryRawFont, true)
-
-    container.setShowFPS(false)
   }
 
   def playerImage(orientation: Orientation) = orientation match {
