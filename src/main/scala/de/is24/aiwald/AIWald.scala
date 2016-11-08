@@ -1,6 +1,7 @@
 package de.is24.aiwald
 
-import org.newdawn.slick.{ AppGameContainer, BasicGame, GameContainer, Graphics, Image }
+import java.awt.Font
+import org.newdawn.slick.{ AppGameContainer, BasicGame, Color, GameContainer, Graphics, Image, TrueTypeFont }
 import MapLoader.GameMap
 
 object AIWald extends App {
@@ -29,6 +30,8 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   private var pavingOverlayTile: Image = null
   private var playerLocation = getStartingPlayerLocation(map)
   private var timeSinceLastUpdate: Long = 0L
+  private var victoryFont: TrueTypeFont = null
+  private var victoryRawFont: Font = null
 
   def currentPlayerLocation: PlayerLocation = playerLocation
   override def render(container: GameContainer, g: Graphics): Unit = {
@@ -43,8 +46,15 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
       drawAt(playerLocation.x, playerLocation.y, playerImage(playerLocation.orientation), yOffset = -5)
     }
     if (won) {
-      g.drawImage(wonImage, 600, 30)
+      finishGame(g)
     }
+  }
+
+  private def finishGame(g: Graphics): Unit = {
+    g.drawImage(wonImage, 600, 30)
+    g.setColor(Color.yellow)
+    g.setFont(victoryFont)
+    g.drawString("Victory!", 500, 30)
   }
 
   private def drawAt(x: Int, y: Int, image: Image, yOffset: Int = 0)(implicit g: Graphics) = {
@@ -69,6 +79,8 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     playerSouth = new Image(avatar.facing(Orientation.South))
     playerWest = new Image(avatar.facing(Orientation.West))
     wonImage = new Image("won.png")
+    victoryRawFont = new Font("Time New Roman", Font.BOLD, 35)
+    victoryFont = new TrueTypeFont(victoryRawFont, true)
   }
 
   def playerImage(orientation: Orientation) = orientation match {
