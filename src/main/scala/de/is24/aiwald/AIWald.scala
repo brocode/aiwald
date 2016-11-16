@@ -147,7 +147,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     val (x, y) = playerLocation.coordinatesInFrontOfPlayer
     val forwardTile = map(y)(x)
     forwardTile match {
-      case Tile.Bush ⇒
+      case Tile.Bush if playerLocation.hasSword ⇒
         setTile(y, x)(Tile.Grass)
       case _ ⇒
         println(s"Can't slash at $forwardTile")

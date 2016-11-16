@@ -98,5 +98,17 @@ class AIWaldSpec extends Specification {
       game.tick()
       ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Grass
     }
+    "can't slash without sword" in {
+      val ai = new AI() {
+        override def nextMove(map: GameMap, currentPlayerLocation: PlayerData): Move = {
+          Move.SLASH
+        }
+      }
+      val game = new Game(MapLoader.load("test3"), ai)
+      game.currentPlayerLocation.hasSword must beFalse
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Bush
+      game.tick()
+      ai.tileInFrontOfPlayer(game.map, game.currentPlayerLocation) must be equalTo Tile.Bush
+    }
   }
 }
