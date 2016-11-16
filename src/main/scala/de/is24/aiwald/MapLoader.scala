@@ -8,6 +8,8 @@ object MapLoader {
   val Tree = "🌲"
   val Person = "🙋"
   val Money = "💰"
+  val Bush = "⾀"
+  val Sword = "⚔"
 
   type GameMap = List[List[Tile]]
   def load(name: String): GameMap = {
@@ -29,6 +31,8 @@ object MapLoader {
       .replaceAll(Tree, "W")
       .replaceAll(Person, "S")
       .replaceAll(Money, "C")
+      .replaceAll(Bush, "B")
+      .replaceAll(Sword, "T")
   }
 
   private def tileForChar(c: Char) = c.toString match {
