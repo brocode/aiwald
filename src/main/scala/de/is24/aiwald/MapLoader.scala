@@ -36,5 +36,7 @@ object MapLoader {
     case "W" ⇒ Tile.Tree
     case "S" ⇒ Tile.StartingArea
     case "C" ⇒ Tile.Coin
+    case "B" ⇒ Tile.Bush
+    case "T" ⇒ Tile.Sword
   }
 }

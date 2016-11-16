@@ -7,7 +7,7 @@ import MapLoader.GameMap
 object AIWald extends App {
   val levelName: String = args.toList.headOption.getOrElse(throw new IllegalArgumentException("No level name specified"))
   val app: AppGameContainer = new AppGameContainer(new Game(MapLoader.load(levelName)))
-  app.setDisplayMode(800, 800, false)
+  app.setDisplayMode(800, 832, false)
   app.setTargetFrameRate(60)
   app.setTitle("AIWald")
   app.setMinimumLogicUpdateInterval(50)
@@ -33,8 +33,12 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   private var timeSinceLastUpdate: Long = 0L
   private var victoryFont: TrueTypeFont = null
   private var victoryRawFont: Font = null
+  private var statusFont: TrueTypeFont = null
+  private var statusRawFont: Font = null
+  private var bushTile: Image = null
+  private var swordTile: Image = null
 
-  def currentPlayerLocation: PlayerLocation = playerLocation
+  def currentPlayerLocation: PlayerData = playerLocation
   override def render(container: GameContainer, g: Graphics): Unit = {
     implicit val graphics = g
     for {
@@ -46,9 +50,20 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
       }
       drawAt(playerLocation.x, playerLocation.y, playerImage(playerLocation.orientation), yOffset = -5)
     }
+    renderStatusBar(g)
     if (won) {
       finishGame(g)
     }
+  }
+
+  private def renderStatusBar(g: Graphics): Unit = {
+    g.setColor(Color.lightGray)
+    g.fillRect(0, 800, 800, 32)
+    g.setFont(statusFont)
+    g.setColor(Color.black)
+    g.drawString("Items:", 0, 805)
+    if (playerLocation.hasSword)
+      g.drawImage(swordTile, 70, 800)
   }
 
   private def finishGame(g: Graphics): Unit = {
@@ -67,6 +82,8 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     case Tile.Tree         ⇒ List(grassTile, treeTile)
     case Tile.Coin         ⇒ List(grassTile, coinTile)
     case Tile.StartingArea ⇒ List(grassTile, towerTile)
+    case Tile.Bush         ⇒ List(grassTile, bushTile)
+    case Tile.Sword        ⇒ List(grassTile, swordTile)
   }
 
   override def init(container: GameContainer): Unit = {
@@ -82,6 +99,10 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     wonImage = new Image("won.png")
     victoryRawFont = new Font("Time New Roman", Font.BOLD, 35)
     victoryFont = new TrueTypeFont(victoryRawFont, true)
+    statusRawFont = new Font("Time New Roman", Font.PLAIN, 20)
+    statusFont = new TrueTypeFont(statusRawFont, true)
+    bushTile = new Image("bush.png")
+    swordTile = new Image("sword.png")
   }
 
   def playerImage(orientation: Orientation) = orientation match {
@@ -112,6 +133,8 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
           playerLocation = playerLocation.rotateRight()
         case Move.PICK_UP ⇒
           pickUp()
+        case Move.SLASH ⇒
+          slashForward()
         case Move.DO_NOTHING ⇒
           ()
       }
@@ -120,9 +143,32 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
 
   def won: Boolean = !coinsLeft
 
+  private def slashForward(): Unit = {
+    val (x, y) = playerLocation.coordinatesInFrontOfPlayer
+    val forwardTile = map(y)(x)
+    forwardTile match {
+      case Tile.Bush ⇒
+        setTile(y, x)(Tile.Grass)
+      case _ ⇒
+        println(s"Can't slash at $forwardTile")
+    }
+  }
+
+  private def setTile(y: Int, x: Int)(tile: Tile): Unit =
+    map = map.updated(y, map(x).updated(x, tile))
+
   private def pickUp(): Unit = {
-    if (currentTile == Tile.Coin) {
-      map = map.updated(playerLocation.y, map(playerLocation.x).updated(playerLocation.x, Tile.Grass))
+
+    def setCurrentTile(tile: Tile): Unit =
+      setTile(playerLocation.y, playerLocation.x)(tile)
+
+    currentTile match {
+      case Tile.Coin ⇒
+        setCurrentTile(Tile.Grass)
+      case Tile.Sword ⇒
+        playerLocation = playerLocation.copy(hasSword = true)
+        setCurrentTile(Tile.Grass)
+      case _ ⇒ println(s"Can't pick up ${currentTile}")
     }
   }
 
@@ -138,12 +184,12 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
 
   private def coinsLeft: Boolean = map.flatten.toList.contains(Tile.Coin)
 
-  def getStartingPlayerLocation(map: GameMap): PlayerLocation = {
+  def getStartingPlayerLocation(map: GameMap): PlayerData = {
     val (row, y) = map.zipWithIndex.filter {
       case (row, index) ⇒
         row.exists(tile ⇒ tile == Tile.StartingArea)
     }.head
     val x = row.zipWithIndex.filter(_._1 == Tile.StartingArea).head._2
-    PlayerLocation(x, y, Orientation.South)
+    PlayerData(x, y, Orientation.South)
   }
 }

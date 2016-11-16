@@ -4,7 +4,7 @@ import de.is24.aiwald.MapLoader.GameMap
 
 class MyAI extends AI {
 
-  def nextMove(map: GameMap, playerLocation: PlayerLocation): Move = {
+  def nextMove(map: GameMap, playerLocation: PlayerData): Move = {
     Move.DO_NOTHING
   }
 }

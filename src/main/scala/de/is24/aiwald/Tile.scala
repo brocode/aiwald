@@ -10,4 +10,6 @@ object Tile extends Enum[Tile] {
   case object Tree extends Tile
   case object Coin extends Tile
   case object StartingArea extends Tile
+  case object Bush extends Tile
+  case object Sword extends Tile
 }

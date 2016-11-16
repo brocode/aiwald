@@ -3,8 +3,8 @@ package de.is24.aiwald
 import de.is24.aiwald.MapLoader.GameMap
 import Orientation._
 
-case class PlayerLocation(x: Int, y: Int, orientation: Orientation) {
-  def moveForward(): PlayerLocation = {
+case class PlayerData(x: Int, y: Int, orientation: Orientation, hasSword: Boolean = false) {
+  def moveForward(): PlayerData = {
     orientation match {
       case North ⇒ this.copy(y = y - 1)
       case East  ⇒ this.copy(x = x + 1)
@@ -15,17 +15,26 @@ case class PlayerLocation(x: Int, y: Int, orientation: Orientation) {
 
   def isValidLocation(map: GameMap): Boolean = {
     val tile = map(y)(x)
-    PlayerLocation.ValidLocationTiles.contains(tile)
+    PlayerData.ValidLocationTiles.contains(tile)
   }
 
-  def rotateLeft(): PlayerLocation = orientation match {
+  def coordinatesInFrontOfPlayer: (Int, Int) = {
+    orientation match {
+      case Orientation.North ⇒ (x, y - 1)
+      case Orientation.South ⇒ (x, y + 1)
+      case Orientation.West  ⇒ (x - 1, y)
+      case Orientation.East  ⇒ (x + 1, y)
+    }
+  }
+
+  def rotateLeft(): PlayerData = orientation match {
     case North ⇒ this.copy(orientation = West)
     case East  ⇒ this.copy(orientation = North)
     case South ⇒ this.copy(orientation = East)
     case West  ⇒ this.copy(orientation = South)
   }
 
-  def rotateRight(): PlayerLocation = orientation match {
+  def rotateRight(): PlayerData = orientation match {
     case North ⇒ this.copy(orientation = East)
     case East  ⇒ this.copy(orientation = South)
     case South ⇒ this.copy(orientation = West)
@@ -33,6 +42,6 @@ case class PlayerLocation(x: Int, y: Int, orientation: Orientation) {
   }
 }
 
-object PlayerLocation {
-  val ValidLocationTiles = Seq(Tile.Grass, Tile.Coin, Tile.StartingArea)
+object PlayerData {
+  val ValidLocationTiles = Seq(Tile.Grass, Tile.Coin, Tile.StartingArea, Tile.Sword)
 }
