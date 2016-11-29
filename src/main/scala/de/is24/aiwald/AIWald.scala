@@ -83,7 +83,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
     case Tile.Coin         ⇒ List(grassTile, coinTile)
     case Tile.StartingArea ⇒ List(grassTile, towerTile)
     case Tile.Bush         ⇒ List(grassTile, bushTile)
-    case Tile.Sword        ⇒ List(grassTile, swordTile)
+    case Tile.Sword        ⇒ List(grassTile, pavingOverlayTile, swordTile)
   }
 
   override def init(container: GameContainer): Unit = {
