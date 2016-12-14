@@ -155,7 +155,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
   }
 
   private def setTile(y: Int, x: Int)(tile: Tile): Unit =
-    map = map.updated(y, map(x).updated(x, tile))
+    map = map.updated(y, map(y).updated(x, tile))
 
   private def pickUp(): Unit = {
 
