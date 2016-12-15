@@ -13,7 +13,7 @@ TODO gif
    - Still in IntelliJ IDEA, click "Run > Edit configurations" and click on right green "+" sign and select "Application". Fill in like this:
           #+CAPTION: Run configuration for aiwald
           #+NAME:   fig:AIWald
-          [[./aiwald.png]]
+          [[./aiwald-run.png]]
   * You can now run the game by clicking on "Run > Run Aiwald"!
 
   If any of the above is unclear, ask any developer who uses IntelliJ IDEA and she/he will be happy to help 😇
