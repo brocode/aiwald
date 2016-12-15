@@ -53,3 +53,6 @@ sbt "run level_1" # edit level according to maps in src/main/resources/levels/*.
    Maps are plain text ascii or unicode files.
    Simply drop a map file in [[src/main/resources/maps][the maps directory]].
    See [[src/main/scala/MapLoader.scala][MapLoader]] to see which character stands for what tile (you can use either unicode symbols or ascii characters)
+
+* Credit
+  Sprites are from http://opengameart.org.
