@@ -129,7 +129,7 @@ class Game(var map: GameMap, ai: AI = new MyAI()) extends BasicGame("AIwald game
           moveForward()
         case Move.ROTATE_LEFT ⇒
           playerLocation = playerLocation.rotateLeft()
-        case Move.ROTATE_RIGTH ⇒
+        case Move.ROTATE_RIGHT ⇒
           playerLocation = playerLocation.rotateRight()
         case Move.PICK_UP ⇒
           pickUp()
