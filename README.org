@@ -54,5 +54,11 @@ sbt "run level_1" # edit level according to maps in src/main/resources/levels/*.
    Simply drop a map file in [[src/main/resources/maps][the maps directory]].
    See [[src/main/scala/MapLoader.scala][MapLoader]] to see which character stands for what tile (you can use either unicode symbols or ascii characters)
 
+** Ideas for further work
+   - The X and Y coordinates really need to be type safe (for instance using scala's value classes)
+   - Additional tiles could be added, for instance traps that cost the player health every time the player steps on them.
+     At the moment an AI that simply randomly choses a move is bound to eventually win each level.
+   - More maps
+
 * Credit
   Sprites are from http://opengameart.org.
