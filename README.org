@@ -2,7 +2,7 @@
 Program an AI that moves through a forest (german: Wald) maze. Great for scala beginners or aspiring programmers in general.
 Works on Windows, OSX and Linux.
 
-TODO gif
+[[./aiwald.png]]
 
 ** Detailed usage
    - You will first need to download this repository. The easiest way to do that is to [[https://github.com/brocode/aiwald/archive/master.zip][click on this link]] and save the zip file somewhere.
