@@ -1,8 +1,55 @@
 * AIWald
-Program an AI that moves through a forest (german: Wald) maze.
+Program an AI that moves through a forest (german: Wald) maze. Great for scala beginners or aspiring programmers in general.
+Works on Windows, OSX and Linux.
 
+TODO gif
 
-Usage:
+** Detailed usage
+   - You will first need to download this repository. The easiest way to do that is to [[https://github.com/brocode/aiwald/archive/master.zip][click on this link]] and save the zip file somewhere.
+   - Decompress this file (usually this means right-clicking on the file and choosing to decompress it.
+   - Install the java development kit (JDK) 8 or later. It can be found [[http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html][here]].
+   - Download [[https://www.jetbrains.com/idea/download/][IntelliJ IDEA]] and install it. You will need to activate the scala plugin as per [[https://www.jetbrains.com/help/idea/2016.3/enabling-and-disabling-plugins.html][this documentation]].
+   - In IntelliJ IDEA, click "File > Open" and select the directory that you decompressed in the second step (aiwald) and confirm the module import (aiwald and aiwald-build).
+   - Still in IntelliJ IDEA, click "Run > Edit configurations" and click on right green "+" sign and select "Application". Fill in like this:
+          #+CAPTION: Run configuration for aiwald
+          #+NAME:   fig:AIWald
+          [[./aiwald.png]]
+  * You can now run the game by clicking on "Run > Run Aiwald"!
+
+  If any of the above is unclear, ask any developer who uses IntelliJ IDEA and she/he will be happy to help 😇
+  You can also contact [[https://github.com/mriehl][me]] per email if you need help getting started.
+
+** Quick usage (if you're a developer):
 #+BEGIN_SRC bash
 sbt "run level_1" # edit level according to maps in src/main/resources/levels/*.map
 #+END_SRC
+** Rules
+   The goal of the game is to solve all levels (1 to 7) by picking up all the coins.
+   You can change levels by changing the "level_1" from 1 to 7 in the run configuration.
+
+   You should come up with a solution that is able to solve all of the levels without requiring level-specific adjustments (but you can solve the problem
+   incrementally of course!).
+
+   A level is solved if the player avatar picks up all of the coins on the level. To pick up a coin you must be standing on the coin tile and your AI must perform the
+   ~Move.PICK_UP~ move.
+   You are only allowed to stand on the following tiles: ~Grass~, ~StartingArea~, ~Coin~ and ~Sword~.
+   You are not allowed to walk through ~Tree~ and ~Bush~ tiles.
+   ~Bush~ tiles can be transformed into ~Grass~ tiles by standing in front of it (avatar must be looking at the ~Bush~ tile) and perform the ~Move.SLASH~ move. This only works if you have
+   picked up the sword beforehand.
+   In order to pick up the sword, stand on the sword tile and perform the ~Move.PICK_UP~ move.
+
+** Implementation
+   The game works in =ticks= (updates to the screen) and will ask your AI for a ~Move~ each tick. In order to do this the AI will be handed the current state of the game.
+   The AI is implemented in =MyAI.scala= and must return a value of type ~Move~ each time it is called.
+   Given an X and Y coordinate on the map (see the ~PlayerData~) you can resolve the tile type by performing ~map(y)(x)~.
+   For instance if you want to know which tile the player is currently standing on, you can use
+   #+BEGIN_SRC scala
+   map(playerLocation.y)(playerLocation.x)
+   #+END_SRC
+
+   Note that the x and y axis start in the top left corner of the screen (and not bottom left) like [[http://programarcadegames.com/chapters/05_intro_to_graphics/Computer_coordinates_2D.png][this]].
+
+** Writing maps
+   Maps are plain text ascii or unicode files.
+   Simply drop a map file in [[src/main/resources/maps][the maps directory]].
+   See [[src/main/scala/MapLoader.scala][MapLoader]] to see which character stands for what tile (you can use either unicode symbols or ascii characters)
