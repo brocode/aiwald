@@ -18,11 +18,11 @@ case class PlayerData(x: Int, y: Int, orientation: Orientation, hasSword: Boolea
     coordinatesInOrientation(orientation)
   }
 
-  def coordinatesLeftFrontOfPlayer: (Int, Int) = {
+  def coordinatesLeftOfPlayer: (Int, Int) = {
     coordinatesInOrientation(leftOrientation)
   }
 
-  def coordinatesRightFrontOfPlayer: (Int, Int) = {
+  def coordinatesRightOfPlayer: (Int, Int) = {
     coordinatesInOrientation(rightOrientation)
   }
 
